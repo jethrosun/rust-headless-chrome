@@ -140,7 +140,7 @@ impl<'a> Tab {
                 |_transport, _session_id, _interception| RequestInterceptionDecision::Continue,
             ))),
             response_handler: Arc::new(Mutex::new(None)),
-            default_timeout: Arc::new(RwLock::new(Duration::from_secs(3))),
+            default_timeout: Arc::new(RwLock::new(Duration::from_secs(600))),
             event_listeners: Arc::new(Mutex::new(Vec::new())),
             slow_motion_multiplier: Arc::new(RwLock::new(0.0)),
         };
