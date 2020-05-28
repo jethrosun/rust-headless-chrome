@@ -122,6 +122,7 @@ impl Transport {
     {
         // TODO: use get_mut to get exclusive access for entire block... maybe.
         if !self.open.load(Ordering::SeqCst) {
+            println!("debug",);
             return Err(ConnectionClosed {}.into());
         }
         let call_id = self.unique_call_id();
@@ -140,11 +141,11 @@ impl Transport {
                 };
                 let mut raw = message_text.clone();
                 raw.truncate(300);
-                trace!("Msg to tab: {}", &raw);
+                println!("Msg to tab: {}", &raw);
                 if let Err(e) = self.call_method_on_browser(target_method) {
-                    warn!("Failed to call method on browser: {:?}", e);
+                    println!("Failed to call method on browser: {:?}", e);
                     self.waiting_call_registry.unregister_call(call.id);
-                    trace!("Unregistered callback: {:?}", call.id);
+                    println!("Unregistered callback: {:?}", call.id);
                     return Err(e);
                 }
             }
@@ -153,22 +154,21 @@ impl Transport {
                     self.waiting_call_registry.unregister_call(call.id);
                     return Err(e);
                 } else {
-                    trace!("sent method call to browser via websocket");
+                    println!("sent method call to browser via websocket");
                 }
             }
         }
 
         let mut params_string = format!("{:?}", call.get_params());
         params_string.truncate(400);
-        trace!(
+        println!(
             "waiting for response from call registry: {} {:?}",
-            &call_id,
-            params_string
+            &call_id, params_string
         );
 
         let response_result = util::Wait::new(Duration::from_secs(15), Duration::from_millis(5))
             .until(|| response_rx.try_recv().ok());
-        trace!("received response for: {} {:?}", &call_id, params_string);
+        println!("received response for: {} {:?}", &call_id, params_string);
         protocol::parse_response::<C::ReturnObject>((response_result?)?)
     }
 
