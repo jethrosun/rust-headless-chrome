@@ -64,7 +64,8 @@ pub struct LaunchOptions<'a> {
     #[builder(default = "true")]
     headless: bool,
     /// Determines whether to run the browser with a sandbox.
-    #[builder(default = "true")]
+    /// PVN: Set sandbox option to false by default so we can run headless browser in privilege.
+    #[builder(default = "false")]
     sandbox: bool,
     /// Launch the browser with a specific window width and height.
     #[builder(default = "None")]
@@ -98,6 +99,7 @@ pub struct LaunchOptions<'a> {
 
     /// How long to keep the WebSocket to the browser for after not receiving any events from it
     /// Defaults to 30 seconds
+    /// PVN: Changed to 800 second so it is longer than our experiments.
     #[builder(default = "Duration::from_secs(30)")]
     pub idle_browser_timeout: Duration,
 
