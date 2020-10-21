@@ -99,8 +99,8 @@ pub struct LaunchOptions<'a> {
 
     /// How long to keep the WebSocket to the browser for after not receiving any events from it
     /// Defaults to 30 seconds
-    /// PVN: Changed to 800 second so it is longer than our experiments.
-    #[builder(default = "Duration::from_secs(800)")]
+    /// PVN: Changed to 1000 second so it is longer than our experiments.
+    #[builder(default = "Duration::from_secs(1000)")]
     pub idle_browser_timeout: Duration,
 
     /// Environment variables to set for the Chromium process.

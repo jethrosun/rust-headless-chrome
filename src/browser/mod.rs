@@ -106,11 +106,11 @@ impl Browser {
         let transport = Arc::new(Transport::new(
             debug_ws_url,
             None,
-            Duration::from_secs(800),
+            Duration::from_secs(1000),
         )?);
         trace!("created transport");
 
-        Self::create_browser(None, transport, Duration::from_secs(800))
+        Self::create_browser(None, transport, Duration::from_secs(1000))
     }
 
     fn create_browser(
